@@ -1,0 +1,24 @@
+---
+layout: post
+title: "알수없는 torch 에러 저장해두기"
+categories: misc
+---
+
+'''
+
+in weight_the_losses
+    self.losses[k] *= self.loss_weights[k]
+RuntimeError: CUDA error: device-side assert triggered
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
+/pytorch/aten/src/THCUNN/ClassNLLCriterion.cu:108: cunn_ClassNLLCriterion_updateOutput_kernel: block: [0,0,0], thread: [0,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/THCUNN/ClassNLLCriterion.cu:108: cunn_ClassNLLCriterion_updateOutput_kernel: block: [0,0,0], thread: [1,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/THCUNN/ClassNLLCriterion.cu:108: cunn_ClassNLLCriterion_updateOutput_kernel: block: [0,0,0], thread: [2,0,0] Assertion `t >= 0 && t < n_classes` failed.
+
+
+'''
+
+위와같은 에러가 발생했을때
+torch버전을 낮추고 torch에 종속되는 다른 패키지의 버전도 변경된 torch에 맞게 바꿔줬다.
+
+내경우에는 torch를 1.5.0으로 낮추고 종속되는 pytorch-metric-learning도 해당 홈페이지에 들어가서 torch 1.5.0 지원되는 버전으로 바꿔줬음
